@@ -13,6 +13,7 @@ import { Form, InputNumber, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { TableListItem, TableListPagination } from './data';
 import { fetchOrderQueryPayOrders } from '@/services/order/list';
+import { payTypeEnum } from '@/common/enum';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -119,56 +120,7 @@ const TableList: React.FC = () => {
     {
       title: '通道支付类型',
       dataIndex: 'payType',
-      valueEnum: {
-        1: {
-          text: '支付宝H5',
-          status: 'Default',
-        },
-        2: {
-          text: '支付宝扫码',
-          status: 'Default',
-        },
-        3: {
-          text: '微信H5',
-          status: 'Default',
-        },
-        4: {
-          text: '微信扫码',
-          status: 'Default',
-        },
-        5: {
-          text: '云闪付H5',
-          status: 'Default',
-        },
-        6: {
-          text: '云闪付扫码',
-          status: 'Default',
-        },
-        7: {
-          text: 'QQ钱包',
-          status: 'Default',
-        },
-        8: {
-          text: '京东钱包',
-          status: 'Default',
-        },
-        9: {
-          text: '百度钱包',
-          status: 'Default',
-        },
-        10: {
-          text: '数字货币（OTC）',
-          status: 'Default',
-        },
-        11: {
-          text: '银联快捷',
-          status: 'Default',
-        },
-        12: {
-          text: '银联扫码',
-          status: 'Default',
-        }
-      },
+      valueEnum: payTypeEnum,
     },
     {
       title: '操作',

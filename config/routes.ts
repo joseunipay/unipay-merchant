@@ -87,6 +87,33 @@ export default [
     ],
   },
   {
+    path: '/finance',
+    name: '财务结算',
+    icon: 'DollarCircleOutlined',
+    routes: [
+      {
+        path: '/finance',
+        redirect: '/finance/apply',
+      },
+      {
+        path: '/finance/apply',
+        name: '结算申请',
+        component: './finance/apply',
+      },
+      {
+        path: '/finance/settle/list',
+        name: '结算历史',
+        component: './finance/settlelist',
+      },
+      {
+        path: '/finance/reconciled/list',
+        name: '对账历史',
+        component: './finance/reconciledlist'
+      }
+    ],
+  },
+  
+  {
     path: '/form',
     icon: 'form',
     name: 'form',
