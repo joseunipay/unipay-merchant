@@ -39,37 +39,51 @@ export default [
       },
       {
         component: '404',
-        path: '/*',
+        path: '*',
       },
     ],
   },
   {
-    path: '/dashboard',
-    name: 'dashboard',
-    icon: 'dashboard',
+    path: '/home',
+    name: '首页',
+    icon: 'home',
+    component: './dashboard/analysis',
+  },
+  {
+    path: '/order',
+    name: '订单管理',
+    icon: 'profile',
     routes: [
       {
-        path: '/dashboard',
-        redirect: '/dashboard/analysis',
+        path: '/order',
+        redirect: '/order/list',
       },
       {
-        name: 'analysis',
-        icon: 'smile',
-        path: '/dashboard/analysis',
-        component: './dashboard/analysis',
+        path: '/order/list',
+        name: '订单查询',
+        component: './order/list',
       },
       {
-        name: 'monitor',
-        icon: 'smile',
-        path: '/dashboard/monitor',
-        component: './dashboard/monitor',
+        path: '/order/abnormal/list',
+        name: '异常订单',
+        component: './order/abnormal',
+      },
+    ],
+  },
+  {
+    path: '/channel',
+    name: '通道管理',
+    icon: 'table',
+    routes: [
+      {
+        path: '/channel',
+        redirect: '/channel/list',
       },
       {
-        name: 'workplace',
-        icon: 'smile',
-        path: '/dashboard/workplace',
-        component: './dashboard/workplace',
-      },
+        path: '/channel/list',
+        name: '通道设置',
+        component: './channel/list',
+      }
     ],
   },
   {
@@ -259,10 +273,10 @@ export default [
   },
   {
     path: '/',
-    redirect: '/dashboard/analysis',
+    redirect: '/home',
   },
   {
     component: '404',
-    path: '/*',
+    path: '*',
   },
 ];

@@ -7,8 +7,7 @@ import proxy from './proxy';
 import routes from './routes';
 
 const { REACT_APP_ENV = 'dev' } = process.env;
-
-export default defineConfig({
+const config: any = defineConfig({
   /**
    * @name 开启 hash 模式
    * @description 让 build 之后的产物包含 hash 后缀。通常用于增量发布和避免浏览器加载缓存。
@@ -78,6 +77,14 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/layout-menu
    */
   title: 'Ant Design Pro',
+  define: {
+    PROJECT_KEY: defaultSettings.projectKey,
+    // ZW_APP_KEY: defaultSettings.ZW_APP_KEY,
+    SUCCESS_CODE: defaultSettings.SUCCESS_CODE,
+    TOKEN_KEY: defaultSettings.TOKEN_KEY,
+    // ENV,
+    // ICON_FONT_URL: defaultSettings.iconfontUrl,
+  },
   layout: {
     locale: true,
     ...defaultSettings,
@@ -158,3 +165,4 @@ export default defineConfig({
   esbuildMinifyIIFE: true,
   requestRecord: {},
 });
+export default config;
