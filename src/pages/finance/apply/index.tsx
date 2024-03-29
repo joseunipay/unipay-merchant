@@ -1,21 +1,15 @@
 import {
   PageContainer,
   ProForm,
-  ProFormDateRangePicker,
-  ProFormDependency,
   ProFormDigit,
-  ProFormRadio,
-  ProFormSelect,
-  ProFormText,
-  ProFormTextArea,
 } from '@ant-design/pro-components';
 import { useRequest } from '@umijs/max';
 import { Card, Spin, message } from 'antd';
 import { Suspense, type FC } from 'react';
 import { fakeSubmitForm } from './service';
-import useStyles from './style.style';
 import IntroduceRow from './IntroduceRow';
 import { fakeChartData } from '@/pages/dashboard/analysis/service';
+
 const BasicForm: FC<Record<string, any>> = () => {
   const { run } = useRequest(fakeSubmitForm, {
     manual: true,

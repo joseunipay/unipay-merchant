@@ -5,7 +5,7 @@ import numeral from 'numeral';
 import type { DataItem } from '../data.d';
 import useStyles from '../style.style';
 import Yuan from '../utils/Yuan';
-import { ChartCard, Field } from './Charts';
+import { ChartCard, Field } from '@/components/Charts';
 import Trend from './Trend';
 const topColResponsiveProps = {
   xs: 24,

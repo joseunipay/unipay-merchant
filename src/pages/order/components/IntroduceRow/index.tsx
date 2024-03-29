@@ -1,7 +1,6 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Col, Progress, Row, Tooltip } from 'antd';
 import numeral from 'numeral';
-import type { DataItem } from './data.d';
 import { ChartCard } from '@/components/Charts';
 const topColResponsiveProps = {
   xs: 24,
@@ -13,13 +12,13 @@ const topColResponsiveProps = {
     marginBottom: 24,
   },
 };
-const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: DataItem[] }) => {
+const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: any[] }) => {
   return (
     <Row gutter={24}>
       <Col {...topColResponsiveProps}>
         <ChartCard
           bordered={false}
-          title="可结算金额"
+          title="已支付金额"
           action={
             <Tooltip title="指标说明">
               <InfoCircleOutlined />
@@ -36,7 +35,7 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Dat
         <ChartCard
           bordered={false}
           loading={loading}
-          title="已结算金额"
+          title="订单数"
           action={
             <Tooltip title="指标说明">
               <InfoCircleOutlined />
@@ -51,7 +50,7 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Dat
         <ChartCard
           bordered={false}
           loading={loading}
-          title="支付笔数"
+          title="支付成功订单数"
           action={
             <Tooltip title="结算中金额">
               <InfoCircleOutlined />
@@ -66,7 +65,7 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Dat
         <ChartCard
           loading={loading}
           bordered={false}
-          title="冻结中金额"
+          title="成功率"
           action={
             <Tooltip title="指标说明">
               <InfoCircleOutlined />

@@ -63,7 +63,7 @@ const ChartCard: React.FC<ChartCardProps> = (props) => {
               height: contentHeight || 'auto',
             }}
           >
-            <div className={contentHeight && styles.contentFixed}>{children}</div>
+            <div className={contentHeight ? styles.contentFixed : ''}>{children}</div>
           </div>
         )}
         {footer && (
@@ -95,6 +95,9 @@ const ChartCard: React.FC<ChartCardProps> = (props) => {
       loading={loading}
       bodyStyle={{
         padding: '20px 24px 8px 24px',
+      }}
+      style={{
+        border: '1px solid rgba(0, 0, 0, 0.06)'
       }}
       {...rest}
     >

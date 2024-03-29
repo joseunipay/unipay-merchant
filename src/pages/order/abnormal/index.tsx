@@ -1,25 +1,19 @@
-import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
   FooterToolbar,
-  ModalForm,
   PageContainer,
-  ProDescriptions,
-  ProFormText,
-  ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
 import { Button, Form, InputNumber, message } from 'antd';
 import React, { useRef, useState } from 'react';
-import type { TableListItem, TableListPagination } from './data';
 import { fetchOrderQueryUnusualOrders } from '@/services/order/list';
 import { payTypeEnum } from '@/common/enum';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
-  const [selectedRowsState, setSelectedRows] = useState<TableListItem[]>([]);
+  const [selectedRowsState, setSelectedRows] = useState<OrderListItem[]>([]);
 
-  const columns: ProColumns<TableListItem>[] = [
+  const columns: ProColumns<OrderListItem>[] = [
     {
       title: '订单号',
       dataIndex: 'channelOrderId',
@@ -135,22 +129,10 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<TableListItem, TableListPagination>
-        // headerTitle="查询表格"
+      <ProTable<OrderListItem, TableListPagination>
         actionRef={actionRef}
         rowKey="key"
         search={false}
-        // toolBarRender={() => [
-        //   <Button
-        //     type="primary"
-        //     key="primary"
-        //     onClick={() => {
-        //       handleModalVisible(true);
-        //     }}
-        //   >
-        //     <PlusOutlined /> 新建
-        //   </Button>,
-        // ]}
         request={async (
           params,
           sort,

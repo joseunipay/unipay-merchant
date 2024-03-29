@@ -9,16 +9,16 @@ import {
   ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
-import { Form, InputNumber, message } from 'antd';
-import React, { useRef, useState } from 'react';
-import type { TableListItem, TableListPagination } from './data';
+import { Card, Form, InputNumber, Spin, message } from 'antd';
+import React, { Suspense, useRef, useState } from 'react';
 import { fetchOrderQueryPayOrders } from '@/services/order/list';
-import { payTypeEnum } from '@/common/enum';
+import { callbackStatusEnum, orderSourceEnum, orderStatusEnum, payTypeEnum } from '@/common/enum';
+import IntroduceRow from '../components/IntroduceRow';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
 
-  const columns: ProColumns<TableListItem>[] = [
+  const columns: ProColumns<OrderListItem>[] = [
     {
       title: '订单号',
       dataIndex: 'channelOrderId',
@@ -44,74 +44,34 @@ const TableList: React.FC = () => {
     {
       title: '实际支付金额',
       dataIndex: 'callNo',
-      sorter: true,
       hideInSearch: true,
-      // renderText: (val: string) => `${val}万`,
     },
     {
       title: '创建时间',
-      sorter: true,
       dataIndex: 'createdAt',
       valueType: 'dateTimeRange',
     },
     {
       title: '订单状态',
       dataIndex: 'orderStatus',
+      valueEnum: orderStatusEnum,
       hideInSearch: true,
-      valueEnum: {
-        1: {
-          text: '已创建',
-          status: 'Default',
-        },
-        2: {
-          text: '已支付',
-          status: 'Success',
-        },
-        3: {
-          text: '支付超时',
-          status: 'Error',
-        },
-
-      },
     },
     {
       title: '回调时间',
-      sorter: true,
       dataIndex: 'callbackAt',
       valueType: 'dateTimeRange',
     },
     {
       title: '回调状态',
       dataIndex: 'callbackStatus',
+      valueEnum: callbackStatusEnum,
       hideInSearch: true,
-      valueEnum: {
-        1: {
-          text: '未回调',
-          status: 'Default',
-        },
-        2: {
-          text: '回调成功',
-          status: 'Success',
-        },
-        3: {
-          text: '回调失败',
-          status: 'Error',
-        },
-      },
     },
     {
       title: '订单来源',
       dataIndex: 'orderSource',
-      valueEnum: {
-        1: {
-          text: '收银台',
-          status: 'Default',
-        },
-        2: {
-          text: 'API接口',
-          status: 'Default',
-        }
-      },
+      valueEnum: orderSourceEnum,
     },
     {
       title: '通道ID',
@@ -138,55 +98,47 @@ const TableList: React.FC = () => {
         </a>,
         record.orderStatus === 2 && record.callbackStatus === 3 && record.orderSource === 2 && (
           <a key="subscribeAlert" href="https://procomponents.ant.design/">
-          补单
-        </a>
+            补单
+          </a>
         ),
       ],
     },
   ];
 
   return (
-    <PageContainer>
-      <ProTable<TableListItem, TableListPagination>
-        // headerTitle="查询表格"
-        actionRef={actionRef}
-        rowKey="key"
-        search={{
-          labelWidth: 120,
-        }}
-        // toolBarRender={() => [
-        //   <Button
-        //     type="primary"
-        //     key="primary"
-        //     onClick={() => {
-        //       handleModalVisible(true);
-        //     }}
-        //   >
-        //     <PlusOutlined /> 新建
-        //   </Button>,
-        // ]}
-        request={async (
-          params,
-          sort,
-          filter,
-        ) => {
-          const { data } = await fetchOrderQueryPayOrders({
-            // current: params.current,
-            // pageSize: params.pageSize,
-            ...params
-          })
+    <PageContainer title={<></>}>
+      <Card bordered={false}>
+        <Suspense fallback={
+          <div style={{ paddingTop: 100, textAlign: 'center' }}>
+            <Spin size="large" />
+          </div>}>
+          <IntroduceRow loading={false} visitData={[]} />
+        </Suspense>
+        <ProTable<OrderListItem, TableListPagination>
+          // headerTitle="查询表格"
+          actionRef={actionRef}
+          rowKey="key"
+          search={{
+            labelWidth: 120,
+          }}
+          request={async (
+            params,
+            sort,
+            filter,
+          ) => {
+            const { data } = await fetchOrderQueryPayOrders({
+              // current: params.current,
+              // pageSize: params.pageSize,
+              ...params
+            })
 
-          return {
-            data: data.records
-          }
-        }}
-        columns={columns}
-      // rowSelection={{
-      //   onChange: (_, selectedRows) => {
-      //     setSelectedRows(selectedRows);
-      //   },
-      // }}
-      />
+            return {
+              data: data.records
+            }
+          }}
+          columns={columns}
+        />
+      </Card>
     </PageContainer>
   );
 };
