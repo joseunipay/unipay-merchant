@@ -1,24 +1,18 @@
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
-  FooterToolbar,
-  ModalForm,
   PageContainer,
-  ProDescriptions,
-  ProFormText,
-  ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
-import { Form, InputNumber, Switch, message } from 'antd';
+import { Switch, message } from 'antd';
 import React, { useRef, useState } from 'react';
-import type { TableListItem, TableListPagination } from './data';
 import { fetchMerchantChannelQueryMerchantChannelPage, fetchMerchantChannelUpdateMerchantChannel } from '@/services/channel/list';
 import { payTypeEnum } from '@/common/enum';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
 
-  const handleStatusChange = async (info) => {
+  const handleStatusChange = async (info: ChannelListItem) => {
     const params = {
       channelId: info.channelId,
       status: ~info.status + 2,
@@ -29,9 +23,10 @@ const TableList: React.FC = () => {
     if (actionRef.current) {
       actionRef.current.reload();
     }
+    message.success('操作成功')
   }
 
-  const columns: ProColumns<TableListItem>[] = [
+  const columns: ProColumns<ChannelListItem>[] = [
     {
       title: '通道ID',
       dataIndex: 'channelId',
@@ -54,7 +49,7 @@ const TableList: React.FC = () => {
         },
       },
       render: (_, record) => {
-        return <Switch value={record.status} onChange={() => handleStatusChange(record)} />
+        return <Switch value={!!record.status} onChange={() => handleStatusChange(record)} />
       }
     },
     {
@@ -116,7 +111,7 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<TableListItem, TableListPagination>
+      <ProTable<ChannelListItem, TableListPagination>
         actionRef={actionRef}
         rowKey="key"
         search={{
