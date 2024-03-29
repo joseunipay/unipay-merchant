@@ -6,7 +6,7 @@ import {
 } from '@ant-design/pro-components';
 import { Button, Form, InputNumber, message } from 'antd';
 import React, { useRef, useState } from 'react';
-import { fetchOrderQueryUnusualOrders } from '@/services/order/list';
+import { fetchOrderQueryUnusualOrders } from '@/services/order';
 import { payTypeEnum } from '@/common/enum';
 
 const TableList: React.FC = () => {
