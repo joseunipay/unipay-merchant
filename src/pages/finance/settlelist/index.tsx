@@ -3,15 +3,16 @@ import {
   PageContainer,
   ProTable,
 } from '@ant-design/pro-components';
-import React, { useRef, useState } from 'react';
-import type { TableListItem, TableListPagination } from './data';
+import React, { Suspense, useRef, useState } from 'react';
 import { fetchClearApplyQueryClearApplyPage } from '@/services/finance';
+import { Card, Spin } from 'antd';
+import IntroduceRow from '../components/IntroduceRow';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
 
   // 流水单号 申请金额/预计到账金额/提现手续费率/手续费率/结算手续费/申请时间/状态
-  const columns: ProColumns<TableListItem>[] = [
+  const columns: ProColumns<SettleListItem>[] = [
     {
       title: '流水单号',
       dataIndex: 'id',
@@ -26,30 +27,29 @@ const TableList: React.FC = () => {
       valueType: 'percent',
       hideInSearch: true,
     },
-    // todo
     {
       title: '提现手续费率',
-      dataIndex: 'rate',
+      dataIndex: 'withdrawRate',
       valueType: 'percent',
       hideInSearch: true,
     },
     {
       title: '手续费率',
-      dataIndex: 'rate',
+      dataIndex: 'serviceChargeRate',
       valueType: 'percent',
       hideInSearch: true,
     },
     {
       title: '结算手续费',
-      dataIndex: 'rate',
+      dataIndex: 'clearChargeRage',
       valueType: 'percent',
       hideInSearch: true,
     },
     {
       title: '申请时间',
-      hideInSearch: true,
       dataIndex: 'applyAt',
       valueType: 'dateTime',
+      hideInSearch: true,
     },
     {
       title: '状态',
@@ -74,32 +74,35 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer title={<></>}>
-      <ProTable<TableListItem, TableListPagination>
-        actionRef={actionRef}
-        rowKey="key"
-        search={false}
-        request={async (
-          params,
-          sort,
-          filter,
-        ) => {
-          const { data } = await fetchClearApplyQueryClearApplyPage({
-            // current: params.current,
-            // pageSize: params.pageSize,
-            ...params
-          })
+      <Card>
+        <Suspense fallback={
+          <div style={{ paddingTop: 100, textAlign: 'center' }}>
+            <Spin size="large" />
+          </div>}>
+          <IntroduceRow loading={false} />
+        </Suspense>
+        <ProTable<SettleListItem, TableListPagination>
+          actionRef={actionRef}
+          rowKey="key"
+          search={false}
+          request={async (
+            params,
+            sort,
+            filter,
+          ) => {
+            const { data } = await fetchClearApplyQueryClearApplyPage({
+              // current: params.current,
+              // pageSize: params.pageSize,
+              ...params
+            })
 
-          return {
-            data: data.records
-          }
-        }}
-        columns={columns}
-      // rowSelection={{
-      //   onChange: (_, selectedRows) => {
-      //     setSelectedRows(selectedRows);
-      //   },
-      // }}
-      />
+            return {
+              data: data.records
+            }
+          }}
+          columns={columns}
+        />
+      </Card>
     </PageContainer>
   );
 };

@@ -1,7 +1,6 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Col, Progress, Row, Tooltip } from 'antd';
 import numeral from 'numeral';
-import type { DataItem } from './data.d';
 import { ChartCard } from '@/components/Charts';
 const topColResponsiveProps = {
   xs: 24,
@@ -13,7 +12,7 @@ const topColResponsiveProps = {
     marginBottom: 24,
   },
 };
-const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: DataItem[] }) => {
+const IntroduceRow = ({ loading }: { loading: boolean; }) => {
   return (
     <Row gutter={24}>
       <Col {...topColResponsiveProps}>
@@ -80,4 +79,5 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Dat
     </Row>
   );
 };
+
 export default IntroduceRow;

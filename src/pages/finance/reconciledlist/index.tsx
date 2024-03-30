@@ -1,20 +1,18 @@
-import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
   PageContainer,
   ProTable,
 } from '@ant-design/pro-components';
-import { Form, InputNumber, Switch, message } from 'antd';
-import React, { useRef, useState } from 'react';
-import type { TableListItem, TableListPagination } from './data';
+import React, { Suspense, useRef, useState } from 'react';
 import { fetchClearApplyQueryMchFundCheckPage } from '@/services/finance';
 import { payTypeEnum } from '@/common/enum';
+import { Card, Spin } from 'antd';
+import IntroduceRow from '../components/IntroduceRow';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
 
-  // 对账时间 ,通道ID,支付类型,订单数,支付订单数,成功率,订单金额,结算金额
-  const columns: ProColumns<TableListItem>[] = [
+  const columns: ProColumns<ReconciledListItem>[] = [
     {
       title: '通道ID',
       dataIndex: 'channelId',
@@ -37,7 +35,6 @@ const TableList: React.FC = () => {
       // valueType: 'percent',
       hideInSearch: true,
     },
-    // todo
     {
       title: '成功率',
       dataIndex: 'orderSuccessRate',
@@ -52,7 +49,7 @@ const TableList: React.FC = () => {
     },
     {
       title: '结算金额',
-      dataIndex: 'checkedAt',
+      dataIndex: 'channelClearAmount',
       // valueType: 'percent',
       hideInSearch: true,
     },
@@ -65,34 +62,37 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer title={<></>}>
-      <ProTable<TableListItem, TableListPagination>
-        actionRef={actionRef}
-        rowKey="key"
-        search={{
-          labelWidth: 120,
-        }}
-        request={async (
-          params,
-          sort,
-          filter,
-        ) => {
-          const { data } = await fetchClearApplyQueryMchFundCheckPage({
-            // current: params.current,
-            // pageSize: params.pageSize,
-            ...params
-          })
+      <Card bordered={false}>
+        <Suspense fallback={
+          <div style={{ paddingTop: 100, textAlign: 'center' }}>
+            <Spin size="large" />
+          </div>}>
+          <IntroduceRow loading={false} />
+        </Suspense>
+        <ProTable<ReconciledListItem, TableListPagination>
+          actionRef={actionRef}
+          rowKey="key"
+          search={{
+            labelWidth: 120,
+          }}
+          request={async (
+            params,
+            sort,
+            filter,
+          ) => {
+            const { data } = await fetchClearApplyQueryMchFundCheckPage({
+              // current: params.current,
+              // pageSize: params.pageSize,
+              ...params
+            })
 
-          return {
-            data: data.records
-          }
-        }}
-        columns={columns}
-      // rowSelection={{
-      //   onChange: (_, selectedRows) => {
-      //     setSelectedRows(selectedRows);
-      //   },
-      // }}
-      />
+            return {
+              data: data.records
+            }
+          }}
+          columns={columns}
+        />
+      </Card>
     </PageContainer>
   );
 };
