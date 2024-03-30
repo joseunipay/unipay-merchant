@@ -12,7 +12,7 @@ const topColResponsiveProps = {
     marginBottom: 24,
   },
 };
-const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: any[] }) => {
+const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: OrderMatch }) => {
   return (
     <Row gutter={24}>
       <Col {...topColResponsiveProps}>
@@ -25,7 +25,7 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: any
             </Tooltip>
           }
           loading={loading}
-          total={126560}
+          total={visitData.payAmount}
           contentHeight={46}
         >
         </ChartCard>
@@ -41,7 +41,7 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: any
               <InfoCircleOutlined />
             </Tooltip>
           }
-          total={numeral(8846).format('0,0')}
+          total={visitData.orderNum}
           contentHeight={46}
         >
         </ChartCard>
@@ -56,7 +56,7 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: any
               <InfoCircleOutlined />
             </Tooltip>
           }
-          total={numeral(6560).format('0,0')}
+          total={visitData.orderSuccessCount}
           contentHeight={46}
         >
         </ChartCard>
@@ -71,7 +71,8 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: any
               <InfoCircleOutlined />
             </Tooltip>
           }
-          total="78%"
+          // total={`${visitData.orderSuccessCount}%`}
+          total={visitData.orderSuccessCount}
           contentHeight={46}
         >
         </ChartCard>

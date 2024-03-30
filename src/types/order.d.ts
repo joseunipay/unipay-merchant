@@ -62,3 +62,30 @@ type OrderListItem = {
   payType?: number;
   // [property: string]: any;
 }
+
+type OrderMatch = {
+  /**
+   * 商户号
+   */
+  mchId?: number;
+  /**
+   * 订单数量
+   */
+  orderNum?: number;
+  /**
+   * 支付成功订单数量
+   */
+  orderSuccessCount?: number;
+  /**
+   * 已支付金额
+   */
+  payAmount?: number;
+  /**
+   * 成功率
+   */
+  successRate?: number;
+}
+
+interface OrderMatchApiResult extends ApiResult {
+  data: OrderMatch
+}
