@@ -117,8 +117,6 @@ const Login: React.FC = () => {
   };
 
   const handleSubmit = async (values: API.LoginParams) => {
-    console.log(values, 'values')
-    console.log(SUCCESS_CODE, 'SUCCESS_CODE')
     const params = {
       ia: Base64.encode(values.ia),
       ip: Base64.encode(values.ip)
@@ -209,10 +207,7 @@ const Login: React.FC = () => {
               size: 'large',
               prefix: <UserOutlined />,
             }}
-            placeholder={intl.formatMessage({
-              id: 'pages.login.username.placeholder',
-              defaultMessage: '用户名: admin or user',
-            })}
+            placeholder='请输入'
             rules={[
               {
                 required: true,
@@ -231,10 +226,7 @@ const Login: React.FC = () => {
               size: 'large',
               prefix: <LockOutlined />,
             }}
-            placeholder={intl.formatMessage({
-              id: 'pages.login.password.placeholder',
-              defaultMessage: '密码: ant.design',
-            })}
+            placeholder='请输入'
             rules={[
               {
                 required: true,
