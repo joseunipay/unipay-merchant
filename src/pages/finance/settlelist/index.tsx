@@ -6,7 +6,8 @@ import {
 import React, { Suspense, useRef, useState } from 'react';
 import { fetchClearApplyQueryClearApplyPage } from '@/services/finance';
 import { Card, Spin } from 'antd';
-import IntroduceRow from '../components/IntroduceRow';
+import Introduce from '../components/Introduce';
+import { formatAmount } from '@/utils/format';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -19,13 +20,13 @@ const TableList: React.FC = () => {
     },
     {
       title: '申请金额',
-      dataIndex: 'id',
+      dataIndex: 'applyAmount',
+      renderText: value => formatAmount(value)
     },
     {
       title: '预计到账金额',
       dataIndex: 'grantAmount',
-      valueType: 'percent',
-      hideInSearch: true,
+      renderText: value => formatAmount(value)
     },
     {
       title: '提现手续费率',
@@ -57,16 +58,20 @@ const TableList: React.FC = () => {
       valueType: 'select',
       valueEnum: {
         0: {
-          text: '待结算'
+          text: '待结算',
+          status: 'Default',
         },
         1: {
-          text: '结算成功'
+          text: '结算成功',
+          status: 'Success',
         },
         2: {
-          text: '结算失败'
+          text: '结算失败',
+          status: 'Error',
         },
         3: {
-          text: '冻结中'
+          text: '冻结中',
+          status: 'Default',
         },
       }
     },
@@ -75,12 +80,7 @@ const TableList: React.FC = () => {
   return (
     <PageContainer title={<></>}>
       <Card>
-        <Suspense fallback={
-          <div style={{ paddingTop: 100, textAlign: 'center' }}>
-            <Spin size="large" />
-          </div>}>
-          <IntroduceRow loading={false} />
-        </Suspense>
+        <Introduce />
         <ProTable<SettleListItem, TableListPagination>
           actionRef={actionRef}
           rowKey="key"

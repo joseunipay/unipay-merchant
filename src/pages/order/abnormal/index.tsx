@@ -8,6 +8,8 @@ import { Button, Form, InputNumber, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import { fetchOrderQueryUnusualOrders } from '@/services/order';
 import { payTypeEnum } from '@/common/enum';
+import dayjs from 'dayjs';
+import { formatAmount } from '@/utils/format';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -16,25 +18,34 @@ const TableList: React.FC = () => {
   const columns: ProColumns<OrderListItem>[] = [
     {
       title: '订单号',
-      dataIndex: 'channelOrderId',
+      dataIndex: 'orderId',
       hideInSearch: true,
     },
     {
       title: '订单金额',
       dataIndex: 'orderAmount',
       hideInSearch: true,
+      renderText(text) {
+        return formatAmount(text)
+      },
     },
     {
       title: '支付金额',
       dataIndex: 'callNo',
       hideInSearch: true,
-      // renderText: (val: string) => `${val}万`,
+      renderText(text) {
+        return formatAmount(text)
+      },
     },
     {
       title: '创建时间',
       dataIndex: 'createdAt',
       valueType: 'dateTimeRange',
       hideInSearch: true,
+      render: (_, record) => {
+        const v = record.createdAt;
+        return dayjs(v).format('YYYY-MM-DD')
+      }
     },
     // {
     //   title: '订单状态',
@@ -131,7 +142,7 @@ const TableList: React.FC = () => {
     <PageContainer>
       <ProTable<OrderListItem, TableListPagination>
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="orderId"
         search={false}
         request={async (
           params,

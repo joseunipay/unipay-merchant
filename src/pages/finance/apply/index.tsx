@@ -4,32 +4,25 @@ import {
   ProFormDigit,
 } from '@ant-design/pro-components';
 import { useRequest } from '@umijs/max';
-import { Card, Spin, message } from 'antd';
+import { Card, message } from 'antd';
 import { Suspense, type FC } from 'react';
-import IntroduceRow from '../components/IntroduceRow';
-import { fakeChartData, fetchClearApply } from '@/services/finance';
+import Introduce from '../components/Introduce';
+import { fetchClearApply, fetchClearStatisticsGridClearStatistics } from '@/services/finance';
 import styles from './index.less';
 
 const BasicForm: FC<Record<string, any>> = () => {
-  const { run } = useRequest(fetchClearApply, {
-    manual: true,
-    onSuccess: () => {
-      message.success('提交成功');
-    },
-  });
-  const { loading, data } = useRequest(fakeChartData);
+  const { loading, data = {}, run: fetchIntroduce } = useRequest(fetchClearStatisticsGridClearStatistics);
+
   const onFinish = async (values: Record<string, any>) => {
-    run(values);
+    const msg = await fetchClearApply(values);
+    message.success('提交成功');
+    await fetchIntroduce();
   };
+  
   return (
     <PageContainer title={<></>}>
       <Card bordered={false}>
-        <Suspense fallback={
-          <div style={{ paddingTop: 100, textAlign: 'center' }}>
-            <Spin size="large" />
-          </div>}>
-          <IntroduceRow loading={loading} />
-        </Suspense>
+        <Introduce data={data} loading={loading} />
         <div className={styles.tips}>
           <div className={styles.title}>商户结算手续费=结算金额*比例手续费+固定手续费</div>
           <div>如：申请结算10000元，手续费1%，固定手续费10元。</div>
@@ -49,7 +42,7 @@ const BasicForm: FC<Record<string, any>> = () => {
             name="applyAmount"
             placeholder="请输入"
             min={0}
-            max={100}
+            max={data.clearableAmount ?? 100}
             width="xs"
             fieldProps={{
               formatter: (value) => `¥${value || 0}`,

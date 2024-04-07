@@ -6,8 +6,9 @@ import {
 } from '@ant-design/pro-components';
 import { Switch, message } from 'antd';
 import React, { useRef, useState } from 'react';
-import { fetchMerchantChannelQueryMerchantChannelPage, fetchMerchantChannelUpdateMerchantChannel } from '@/services/channel/list';
+import { fetchMerchantChannelQueryMerchantChannelPage, fetchMerchantChannelUpdateMerchantChannel, fetchCashierConfigQueryCashierConfigs } from '@/services/channel/list';
 import { payTypeEnum } from '@/common/enum';
+import { history, useRequest } from '@umijs/max';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -101,6 +102,10 @@ const TableList: React.FC = () => {
           onClick={() => {
             // handleUpdateModalVisible(true);
             // setCurrentRow(record);
+            // run({
+            //   channelId: record.channelId
+            // })
+            history.push(`/cashier?channelId=${record.id}`)
           }}
         >
           通道测试

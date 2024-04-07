@@ -13,11 +13,54 @@ export async function currentUser(options?: { [key: string]: any }) {
   });
 }
 
-/** 退出登录接口 POST /api/login/outLogin */
+export async function updateCurrentUserBaseInfo(params: {
+  avatarUrl: string, 
+  realname: string, 
+  sex: string, 
+  enableGoogleAuth: string,
+  verifyCode: number
+}): Promise<{code: string, msg: string}>{
+  return request(`${HOST}/current/user`,{
+    method: 'PUT',
+    params: {
+      ...params,
+    },
+  });
+}
+
+export async function updateCurrentUserPwd(params: {originalPwd: string, confirmPwd: string}): Promise<{code: string, msg: string}>{
+  return request(`/${HOST}/current/modifyPwd`,{
+    method: 'PUT',
+    params: {
+      ...params,
+    },
+  });
+}
+
+/** 登录接口 */
+export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
+  return request<ApiResult>(`${HOST}/anon/auth/validate`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+
+/** 退出登录接口 */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/login/outLogin', {
+  return request<Record<string, any>>(`${HOST}/current/logout`, {
     method: 'POST',
     ...(options || {}),
+  });
+}
+
+export async function googleAuthBarcode() {
+  return request<ApiResult>('/api/current/googleAuthBarcode', {
+    method: 'GET',
   });
 }
 
@@ -33,17 +76,6 @@ export async function outLogin(options?: { [key: string]: any }) {
 //   });
 // }
 
-/** 登录接口 POST /api/login/account */
-export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<ApiResult>(`${HOST}/anon/auth/validate`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: body,
-    ...(options || {}),
-  });
-}
 
 /** 此处后端没有提供注释 GET /api/notices */
 export async function getNotices(options?: { [key: string]: any }) {

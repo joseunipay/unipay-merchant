@@ -21,8 +21,7 @@ import { createStyles } from 'antd-style';
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
 import Settings from '../../../../config/defaultSettings';
-import { Base64 } from 'js-base64';
-import { setProjectToken } from '@/utils/utils';
+import { base64encode, setProjectToken } from '@/utils/utils';
 
 const useStyles = createStyles(({ token }) => {
   return {
@@ -118,14 +117,12 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (values: API.LoginParams) => {
     const params = {
-      ia: Base64.encode(values.ia),
-      ip: Base64.encode(values.ip)
+      ia: base64encode(values.ia),
+      ip: base64encode(values.ip)
     }
-    console.log(params, 'params')
     try {
       // 登录
       const msg = await login(params);
-      console.log(msg, 'msg')
       if (msg.code === SUCCESS_CODE) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
@@ -138,7 +135,6 @@ const Login: React.FC = () => {
         window.location.href = urlParams.get('redirect') || '/';
         return;
       }
-      console.log(msg);
       // 如果失败去设置用户错误信息
       setUserLoginState(msg);
     } catch (error) {

@@ -10,7 +10,7 @@ interface ChannelListItem {
   /**
    * 通道id
    */
-  channelId?: string;
+  channelId: string;
   /**
    * 创建时间
    */

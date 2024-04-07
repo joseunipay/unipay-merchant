@@ -18,3 +18,21 @@ export async function fetchMerchantChannelUpdateMerchantChannel(params: { [key: 
     ...(options || {}),
   });
 }
+
+// 查询商户收银台设置列表
+export async function fetchCashierConfigQueryCashierConfigs(params: { [key: string]: any }, options?: { [key: string]: any }) {
+  return request<ApiResult>(`${HOST}/cashierConfig/queryCashierConfigs`, {
+    method: 'GET',
+   params,
+    ...(options || {}),
+  });
+}
+
+// 查询商户通道详情
+export async function fetchMerchantChannelQueryMerchantChannelDetail(params: { id: string }, options?: { [key: string]: any }) {
+  return request<ApiResult>(`${HOST}/merchantChannel/queryMerchantChannelDetail`, {
+    method: 'GET',
+   params,
+    ...(options || {}),
+  });
+}

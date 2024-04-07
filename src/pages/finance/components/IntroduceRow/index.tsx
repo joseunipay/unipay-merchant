@@ -12,70 +12,35 @@ const topColResponsiveProps = {
     marginBottom: 24,
   },
 };
-const IntroduceRow = ({ loading }: { loading: boolean; }) => {
+
+const IntroduceRow = ({ loading, options, dataSource }: { loading: boolean; options: IOption[]; dataSource: Record<string, number> }) => {
   return (
     <Row gutter={24}>
-      <Col {...topColResponsiveProps}>
-        <ChartCard
-          bordered={false}
-          title="可结算金额"
-          action={
-            <Tooltip title="指标说明">
-              <InfoCircleOutlined />
-            </Tooltip>
-          }
-          loading={loading}
-          total={126560}
-          contentHeight={46}
-        >
-        </ChartCard>
-      </Col>
-
-      <Col {...topColResponsiveProps}>
-        <ChartCard
-          bordered={false}
-          loading={loading}
-          title="已结算金额"
-          action={
-            <Tooltip title="指标说明">
-              <InfoCircleOutlined />
-            </Tooltip>
-          }
-          total={numeral(8846).format('0,0')}
-          contentHeight={46}
-        >
-        </ChartCard>
-      </Col>
-      <Col {...topColResponsiveProps}>
-        <ChartCard
-          bordered={false}
-          loading={loading}
-          title="支付笔数"
-          action={
-            <Tooltip title="结算中金额">
-              <InfoCircleOutlined />
-            </Tooltip>
-          }
-          total={numeral(6560).format('0,0')}
-          contentHeight={46}
-        >
-        </ChartCard>
-      </Col>
-      <Col {...topColResponsiveProps}>
-        <ChartCard
-          loading={loading}
-          bordered={false}
-          title="冻结中金额"
-          action={
-            <Tooltip title="指标说明">
-              <InfoCircleOutlined />
-            </Tooltip>
-          }
-          total="78%"
-          contentHeight={46}
-        >
-        </ChartCard>
-      </Col>
+      {
+        options?.map(item => {
+          const value = dataSource?.[item.dataIndex] ?? 0;
+          return (
+            <Col
+              {...topColResponsiveProps}
+              key={item.key || item.dataIndex}
+            >
+              <ChartCard
+                bordered={false}
+                title={item.title}
+                action={
+                  <Tooltip title={item.tooltipTitle}>
+                    <InfoCircleOutlined />
+                  </Tooltip>
+                }
+                loading={loading}
+                total={item.render ? item.render(value) : value}
+                contentHeight={46}
+              >
+              </ChartCard>
+            </Col>
+          )
+        })
+      }
     </Row>
   );
 };

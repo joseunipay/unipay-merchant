@@ -28,6 +28,10 @@ export async function fetchClearApply(params: any) {
 }
 
 // 结算指标
-export async function fakeChartData(): Promise<{ data: any }> {
-  return request('/api/fake_analysis_chart_data');
+export async function fetchClearStatisticsGridClearStatistics(params?: any, options?: { [key: string]: any }) {
+  return request(`${HOST}/clearStatistics/gridClearStatistics`, {
+    method: 'GET',
+    params,
+    ...(options || {}),
+  });
 }

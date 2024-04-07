@@ -5,10 +5,12 @@ import {
 } from '@ant-design/pro-components';
 import { Card, Form, InputNumber, Spin, message } from 'antd';
 import React, { Suspense, useRef, useState } from 'react';
-import { fetchOrderQueryPayOrders, fetchOrderMchOrderStatistics } from '@/services/order';
+import { fetchOrderQueryPayOrders, fetchOrderMchOrderStatistics, fetchOrderQueryOrderDetail } from '@/services/order';
 import { callbackStatusEnum, orderSourceEnum, orderStatusEnum, payTypeEnum } from '@/common/enum';
 import IntroduceRow from '../components/IntroduceRow';
 import { useRequest } from '@umijs/max';
+import dayjs from 'dayjs';
+import { formatAmount } from '@/utils/format';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -18,12 +20,15 @@ const TableList: React.FC = () => {
   const columns: ProColumns<OrderListItem>[] = [
     {
       title: '订单号',
-      dataIndex: 'channelOrderId',
+      dataIndex: 'orderId',
     },
     {
       title: '订单金额',
       dataIndex: 'orderAmount',
       // valueType: 'formList',
+      renderText(text) {
+        return formatAmount(text)
+      },
       renderFormItem: () => {
         return (
           <div style={{ display: 'flex' }}>
@@ -40,13 +45,20 @@ const TableList: React.FC = () => {
     },
     {
       title: '实际支付金额',
-      dataIndex: 'callNo',
+      dataIndex: 'payAmount',
       hideInSearch: true,
+      renderText(text) {
+        return formatAmount(text)
+      },
     },
     {
       title: '创建时间',
       dataIndex: 'createdAt',
       valueType: 'dateTimeRange',
+      render: (_, record) => {
+        const v = record.createdAt;
+        return dayjs(v).format('YYYY-MM-DD')
+      }
     },
     {
       title: '订单状态',
@@ -58,6 +70,10 @@ const TableList: React.FC = () => {
       title: '回调时间',
       dataIndex: 'callbackAt',
       valueType: 'dateTimeRange',
+      render: (_, record) => {
+        const v = record.createdAt;
+        return dayjs(v).format('YYYY-MM-DD')
+      }
     },
     {
       title: '回调状态',
@@ -86,9 +102,11 @@ const TableList: React.FC = () => {
       render: (_, record) => [
         <a
           key="config"
-          onClick={() => {
+          onClick={async () => {
             // handleUpdateModalVisible(true);
             // setCurrentRow(record);
+
+            await fetchOrderQueryOrderDetail({ orderId: record.orderId! })
           }}
         >
           查看
@@ -114,7 +132,7 @@ const TableList: React.FC = () => {
         <ProTable<OrderListItem, TableListPagination>
           // headerTitle="查询表格"
           actionRef={actionRef}
-          rowKey="key"
+          rowKey="orderId"
           search={{
             labelWidth: 120,
           }}

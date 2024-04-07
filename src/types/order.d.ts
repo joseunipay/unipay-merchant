@@ -2,7 +2,7 @@ type OrderListItem = {
   /**
    * 回调时间
    */
-  callbackAt?: Date[];
+  callbackAt?: string;
   /**
    * 回调状态 1-未回调，2-回调成功，3-回调失败
    */
@@ -18,7 +18,7 @@ type OrderListItem = {
   /**
    * 创建时间
    */
-  createdAt?: Date[];
+  createdAt?: string;
   /**
    * 当前页
    */

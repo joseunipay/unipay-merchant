@@ -1,0 +1,25 @@
+.payType {
+  .label {
+    font-weight: 600;
+  }
+
+  .options {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+
+    & > div {
+      height: 46px;
+      padding: 0 8px;
+      border: 1px solid #ccc;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.active {
+        border-color: #2e08ac;
+      }
+    }
+  }
+}

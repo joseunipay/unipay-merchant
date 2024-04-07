@@ -3,11 +3,11 @@ import {
   PageContainer,
   ProTable,
 } from '@ant-design/pro-components';
-import React, { Suspense, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { fetchClearApplyQueryMchFundCheckPage } from '@/services/finance';
 import { payTypeEnum } from '@/common/enum';
-import { Card, Spin } from 'antd';
-import IntroduceRow from '../components/IntroduceRow';
+import { Card } from 'antd';
+import Introduce from '../components/Introduce';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -63,12 +63,7 @@ const TableList: React.FC = () => {
   return (
     <PageContainer title={<></>}>
       <Card bordered={false}>
-        <Suspense fallback={
-          <div style={{ paddingTop: 100, textAlign: 'center' }}>
-            <Spin size="large" />
-          </div>}>
-          <IntroduceRow loading={false} />
-        </Suspense>
+        <Introduce />
         <ProTable<ReconciledListItem, TableListPagination>
           actionRef={actionRef}
           rowKey="key"

@@ -300,6 +300,12 @@ export default [
     ],
   },
   {
+    path: '/cashier',
+    name: '收银台',
+    component: './cashier',
+    hideInMenu: true,
+  },
+  {
     path: '/',
     redirect: '/home',
   },
