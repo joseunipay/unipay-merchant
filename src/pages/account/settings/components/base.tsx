@@ -28,15 +28,14 @@ const validatorPhone = (rule: any, value: string[], callback: (message?: string)
 
 const BaseView: React.FC = () => {
   const { styles } = useStyles();
-  const [showGoogleAuth, setShowGoogleAuth] = useState<boolean>(false);
-
 
   const { initialState, setInitialState } = useModel('@@initialState');
   const { currentUser, fetchUserInfo } = initialState || {};
 
-  const { data: authBarcode, barcodeLoading } = useRequest(() => {
-    return googleAuthBarcode();
-  });
+  const [showGoogleAuth, setShowGoogleAuth] = useState<boolean>(!!currentUser!.enableGoogleAuth ??false);
+
+
+  const { data: authBarcode } = useRequest(googleAuthBarcode);
 
   const handleFinish = async (values: Record<string, any>) => {
     if (isDev) console.log('googleBarcode:', authBarcode);

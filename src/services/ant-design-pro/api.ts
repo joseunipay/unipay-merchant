@@ -17,8 +17,9 @@ export async function updateCurrentUserBaseInfo(params: {
   avatarUrl: string, 
   realname: string, 
   sex: string, 
-  enableGoogleAuth: string,
-  verifyCode: number
+  enableGoogleAuth: 0 | 1,
+  verifyCode: number;
+  googleBarcode?: string;
 }): Promise<{code: string, msg: string}>{
   return request(`${HOST}/current/user`,{
     method: 'PUT',
@@ -59,7 +60,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 }
 
 export async function googleAuthBarcode() {
-  return request<ApiResult>('/api/current/googleAuthBarcode', {
+  return request<Record<string, any>>('/api/current/googleAuthBarcode', {
     method: 'GET',
   });
 }

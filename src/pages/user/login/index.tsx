@@ -5,6 +5,7 @@ import {
   AlipayCircleOutlined,
   LockOutlined,
   MobileOutlined,
+  SafetyOutlined,
   TaobaoCircleOutlined,
   UserOutlined,
   WeiboCircleOutlined,
@@ -22,6 +23,7 @@ import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
 import Settings from '../../../../config/defaultSettings';
 import { base64encode, setProjectToken } from '@/utils/utils';
+import { Base64 } from 'js-base64';
 
 const useStyles = createStyles(({ token }) => {
   return {
@@ -117,8 +119,8 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (values: API.LoginParams) => {
     const params = {
-      ia: base64encode(values.ia),
-      ip: base64encode(values.ip)
+      ia: Base64.encode(values.ia),
+      ip: Base64.encode(values.ip)
     }
     try {
       // 登录
@@ -234,6 +236,17 @@ const Login: React.FC = () => {
                 ),
               },
             ]}
+          />
+          <ProFormText
+            name="verifyCode"
+            fieldProps={{
+              size: 'large',
+              prefix: <SafetyOutlined style={{ fontSize: '19px' }} />,
+            }}
+            placeholder={intl.formatMessage({
+              id: 'pages.login.googleVerifyCode.placeholder',
+              defaultMessage: '谷歌验证码:',
+            })}
           />
 
           {/* {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误" />} */}
