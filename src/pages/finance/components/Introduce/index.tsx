@@ -3,9 +3,10 @@ import { Suspense } from "react";
 import IntroduceRow from "../IntroduceRow";
 import { useRequest } from "@umijs/max";
 import { fetchClearStatisticsGridClearStatistics } from "@/services/finance";
+import { formatAmount } from "@/utils/format";
 
 const renderVal = (value: number) => {
-  return `¥${value}`
+  return `¥${formatAmount(value)}`
 }
 const introduces: IOption[] = [
   {

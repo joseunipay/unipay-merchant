@@ -15,8 +15,14 @@ const BasicForm: FC<Record<string, any>> = () => {
 
   const onFinish = async (values: Record<string, any>) => {
     const msg = await fetchClearApply(values);
-    message.success('提交成功');
-    await fetchIntroduce();
+    if (msg.code === SUCCESS_CODE) {
+      message.success('提交成功');
+      await fetchIntroduce();
+      return;
+    }
+
+    message.error(msg.msg);
+    
   };
   
   return (
