@@ -12,72 +12,37 @@ const topColResponsiveProps = {
     marginBottom: 24,
   },
 };
-const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: OrderMatch }) => {
+
+const IntroduceRow = ({ loading, options, dataSource }: { loading: boolean; options: IOption[]; dataSource: Record<string, number> }) => {
   return (
     <Row gutter={24}>
-      <Col {...topColResponsiveProps}>
-        <ChartCard
-          bordered={false}
-          title="已支付金额"
-          action={
-            <Tooltip title="指标说明">
-              <InfoCircleOutlined />
-            </Tooltip>
-          }
-          loading={loading}
-          total={visitData.payAmount}
-          contentHeight={46}
-        >
-        </ChartCard>
-      </Col>
-
-      <Col {...topColResponsiveProps}>
-        <ChartCard
-          bordered={false}
-          loading={loading}
-          title="订单数"
-          action={
-            <Tooltip title="指标说明">
-              <InfoCircleOutlined />
-            </Tooltip>
-          }
-          total={visitData.orderNum}
-          contentHeight={46}
-        >
-        </ChartCard>
-      </Col>
-      <Col {...topColResponsiveProps}>
-        <ChartCard
-          bordered={false}
-          loading={loading}
-          title="支付成功订单数"
-          action={
-            <Tooltip title="结算中金额">
-              <InfoCircleOutlined />
-            </Tooltip>
-          }
-          total={visitData.orderSuccessCount}
-          contentHeight={46}
-        >
-        </ChartCard>
-      </Col>
-      <Col {...topColResponsiveProps}>
-        <ChartCard
-          loading={loading}
-          bordered={false}
-          title="成功率"
-          action={
-            <Tooltip title="指标说明">
-              <InfoCircleOutlined />
-            </Tooltip>
-          }
-          // total={`${visitData.orderSuccessCount}%`}
-          total={visitData.orderSuccessCount}
-          contentHeight={46}
-        >
-        </ChartCard>
-      </Col>
+      {
+        options?.map(item => {
+          const value = dataSource?.[item.dataIndex] ?? 0;
+          return (
+            <Col
+              {...topColResponsiveProps}
+              key={item.key || item.dataIndex}
+            >
+              <ChartCard
+                bordered={false}
+                title={item.title}
+                action={
+                  <Tooltip title={item.tooltipTitle}>
+                    <InfoCircleOutlined />
+                  </Tooltip>
+                }
+                loading={loading}
+                total={item.render ? item.render(value) : value}
+                contentHeight={46}
+              >
+              </ChartCard>
+            </Col>
+          )
+        })
+      }
     </Row>
   );
 };
+
 export default IntroduceRow;

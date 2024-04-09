@@ -36,3 +36,12 @@ export async function fetchOrderQueryOrderDetail(params: { orderId: string }, op
     ...(options || {}),
   });
 }
+
+// 查询订单详情
+export async function fetchOrderCreateOrder(params: Record<string, any>, options?: { [key: string]: any }) {
+  return request<ApiResult>(`${HOST}/order/createOrder`, {
+    method: 'POST',
+    data: params,
+    ...(options || {}),
+  });
+}

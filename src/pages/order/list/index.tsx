@@ -5,17 +5,14 @@ import {
 } from '@ant-design/pro-components';
 import { Card, Form, InputNumber, Spin, message } from 'antd';
 import React, { Suspense, useRef, useState } from 'react';
-import { fetchOrderQueryPayOrders, fetchOrderMchOrderStatistics, fetchOrderQueryOrderDetail } from '@/services/order';
+import { fetchOrderQueryPayOrders, fetchOrderQueryOrderDetail } from '@/services/order';
 import { callbackStatusEnum, orderSourceEnum, orderStatusEnum, payTypeEnum } from '@/common/enum';
-import IntroduceRow from '../components/IntroduceRow';
-import { useRequest } from '@umijs/max';
 import dayjs from 'dayjs';
 import { formatAmount } from '@/utils/format';
+import Introduce from '../components/Introduce';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
-
-  const { data = {}, loading } = useRequest(fetchOrderMchOrderStatistics);
 
   const columns: ProColumns<OrderListItem>[] = [
     {
@@ -127,7 +124,7 @@ const TableList: React.FC = () => {
           <div style={{ paddingTop: 100, textAlign: 'center' }}>
             <Spin size="large" />
           </div>}>
-          <IntroduceRow loading={loading} visitData={data} />
+          <Introduce />
         </Suspense>
         <ProTable<OrderListItem, TableListPagination>
           // headerTitle="查询表格"
