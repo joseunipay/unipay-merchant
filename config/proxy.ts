@@ -12,6 +12,11 @@
 export default {
   // 如果需要自定义本地开发服务器  请取消注释按需调整
   dev: {
+    '/api/test/': {
+      target: 'https://proapi.azurewebsites.net',
+      changeOrigin: true,
+      pathRewrite: { '/test': '' },
+    },
     '/api/': {
       target: 'http://merchant.byxxs.com/',
       changeOrigin: true,
